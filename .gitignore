@@ -1,0 +1,8 @@
+.env
+
+!triggerxinterface/abis/.gitkeep
+triggerxinterface/abis/*
+
+triggerxinterface/deployments.holesky.json
+
+references/*
