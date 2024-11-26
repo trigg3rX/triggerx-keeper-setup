@@ -1,4 +1,4 @@
-module github.com/trigg3rX/triggerx-keeper
+module github.com/trigg3rX/triggerx-avs-cli
 
 go 1.23.3
 
