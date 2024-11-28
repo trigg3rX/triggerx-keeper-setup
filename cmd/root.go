@@ -6,6 +6,7 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	"github.com/trigg3rX/triggerx-avs-cli/utils"
 )
 
 var (
@@ -13,17 +14,9 @@ var (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "triggerx-avs-cli",
+	Use:   "triggerx",
 	Short: "TriggerX AVS CLI",
-	Long: `
-████████╗██████╗ ██╗ ██████╗  ██████╗ ███████╗██████╗ ██╗  ██╗
-╚══██╔══╝██╔══██╗██║██╔════╝ ██╔════╝ ██╔════╝██╔══██╗╚██╗██╔╝
-   ██║   ██████╔╝██║██║  ███╗██║  ███╗█████╗  ██████╔╝ ╚███╔╝ 
-   ██║   ██╔══██╗██║██║   ██║██║   ██║██╔══╝  ██╔══██╗ ██╔██╗ 
-   ██║   ██║  ██║██║╚██████╔╝╚██████╔╝███████╗██║  ██║██╔╝ ██╗
-   ╚═╝   ╚═╝  ╚═╝╚═╝ ╚═════╝  ╚═════╝ ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝
-                                                               
-TriggerX AVS CLI - Tool for managing operators on AVS.`,
+	Long:  utils.TriggerXAsciiArt + "\nTriggerX AVS CLI - Tool for managing operators on AVS.",
 }
 
 func Execute() {
@@ -36,44 +29,43 @@ func Execute() {
 func init() {
 	cobra.OnInitialize(initConfig)
 
-	registerCmd.GroupID = "1_core"
-	deregisterCmd.GroupID = "1_core"
+	// registerCmd.GroupID = "1_core"
+	// deregisterCmd.GroupID = "1_core"
 	statusCmd.GroupID = "1_core"
 
 	generateKeystoreCmd.GroupID = "2_keystore"
-	exportKeystoreCmd.GroupID = "2_keystore"
-	importKeystoreCmd.GroupID = "2_keystore"
+	// exportKeystoreCmd.GroupID = "2_keystore"
+	// importKeystoreCmd.GroupID = "2_keystore"
 
-	updateBLSCmd.GroupID = "3_bls"
-	removeBLSCmd.GroupID = "3_bls"
-	addBLSCmd.GroupID = "3_bls"
-	listBLSCmd.GroupID = "3_bls"
+	// updateBLSCmd.GroupID = "3_bls"
+	// removeBLSCmd.GroupID = "3_bls"
+	// addBLSCmd.GroupID = "3_bls"
+	// listBLSCmd.GroupID = "3_bls"
 
-	updateSignerCmd.GroupID = "4_signer"
-	removeSignerCmd.GroupID = "4_signer"
-	addSignerCmd.GroupID = "4_signer"
-	listSignersCmd.GroupID = "4_signer"
+	// updateSignerCmd.GroupID = "4_signer"
+	// removeSignerCmd.GroupID = "4_signer"
+	// addSignerCmd.GroupID = "4_signer"
+	// listSignersCmd.GroupID = "4_signer"
 
 	versionCmd.GroupID = "5_utils"
 
-	// Core operator commands
-	rootCmd.AddCommand(registerCmd)
-	rootCmd.AddCommand(deregisterCmd)
+	// rootCmd.AddCommand(registerCmd)
+	// rootCmd.AddCommand(deregisterCmd)
 	rootCmd.AddCommand(statusCmd)
 
 	rootCmd.AddCommand(generateKeystoreCmd)
-	rootCmd.AddCommand(exportKeystoreCmd)
-	rootCmd.AddCommand(importKeystoreCmd)
+	// rootCmd.AddCommand(exportKeystoreCmd)
+	// rootCmd.AddCommand(importKeystoreCmd)
 
-	rootCmd.AddCommand(updateBLSCmd)
-	rootCmd.AddCommand(removeBLSCmd)
-	rootCmd.AddCommand(addBLSCmd)
-	rootCmd.AddCommand(listBLSCmd)
+	// rootCmd.AddCommand(updateBLSCmd)
+	// rootCmd.AddCommand(removeBLSCmd)
+	// rootCmd.AddCommand(addBLSCmd)
+	// rootCmd.AddCommand(listBLSCmd)
 
-	rootCmd.AddCommand(updateSignerCmd)
-	rootCmd.AddCommand(removeSignerCmd)
-	rootCmd.AddCommand(addSignerCmd)
-	rootCmd.AddCommand(listSignersCmd)
+	// rootCmd.AddCommand(updateSignerCmd)
+	// rootCmd.AddCommand(removeSignerCmd)
+	// rootCmd.AddCommand(addSignerCmd)
+	// rootCmd.AddCommand(listSignersCmd)
 
 	rootCmd.AddCommand(versionCmd)
 
@@ -85,14 +77,14 @@ func init() {
 		ID:    "2_keystore",
 		Title: "Keystore Commands:",
 	})
-	rootCmd.AddGroup(&cobra.Group{
-		ID:    "3_bls",
-		Title: "BLS Commands:",
-	})
-	rootCmd.AddGroup(&cobra.Group{
-		ID:    "4_signer",
-		Title: "Signer Commands:",
-	})
+	// rootCmd.AddGroup(&cobra.Group{
+	// 	ID:    "3_bls",
+	// 	Title: "BLS Commands:",
+	// })
+	// rootCmd.AddGroup(&cobra.Group{
+	// 	ID:    "4_signer",
+	// 	Title: "Signer Commands:",
+	// })
 	rootCmd.AddGroup(&cobra.Group{
 		ID:    "5_utils",
 		Title: "Utility Commands:",

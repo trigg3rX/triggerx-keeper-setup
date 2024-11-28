@@ -7,7 +7,7 @@ import (
 
 func displayVersion() {
 	fmt.Println("TriggerX AVS CLI")
-	fmt.Printf("Version:      %s\n", "v1.1.2")
+	fmt.Printf("Version:      %s\n", "v1.0.0")
 	fmt.Printf("Build Date:   %s\n", "2024-11-26")
 	fmt.Printf("Go Version:   %s\n", "1.23.1")
 }
