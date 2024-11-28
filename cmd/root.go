@@ -29,7 +29,7 @@ func Execute() {
 func init() {
 	cobra.OnInitialize(initConfig)
 
-	// registerCmd.GroupID = "1_core"
+	registerCmd.GroupID = "1_core"
 	// deregisterCmd.GroupID = "1_core"
 	statusCmd.GroupID = "1_core"
 
@@ -49,7 +49,7 @@ func init() {
 
 	versionCmd.GroupID = "5_utils"
 
-	// rootCmd.AddCommand(registerCmd)
+	rootCmd.AddCommand(registerCmd)
 	// rootCmd.AddCommand(deregisterCmd)
 	rootCmd.AddCommand(statusCmd)
 

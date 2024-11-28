@@ -113,5 +113,13 @@ func saveKeystore(keyType string, password string, pubKey, privKey []byte) error
 	if err := utils.DisplayWarningMessage(keyType, core.Bytes2Hex(privKey), ksPath); err != nil {
 		return fmt.Errorf("failed to display warning message: %w", err)
 	}
+
 	return crypto.SaveKey(cryptoCurve, privKey, password, ksPath)
+
+	// fmt.Println("Saving keystore to:", ksPath)
+	// fmt.Println("Password:", password)
+	// fmt.Println("Private Key:", core.Bytes2Hex(privKey))
+	// fmt.Println("Public Key:", core.Bytes2Hex(pubKey))
+	// fmt.Println("Crypto Curve:", cryptoCurve)
+	// return nil
 }

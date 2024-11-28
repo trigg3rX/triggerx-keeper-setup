@@ -4,8 +4,10 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"regexp"
 
 	"golang.org/x/term"
+	"github.com/trigg3rX/triggerx-keeper/pkg/core/errors"
 )
 
 // StringPrompt prompts the user for a string input.
@@ -70,8 +72,8 @@ func PasswordPrompt(label string, toConfirm bool) (string, error) {
 		password = string(bytePassword)
 		fmt.Fprintln(os.Stderr)
 
-		if !isValidPassword(password) {
-			fmt.Fprintln(os.Stderr, "Password does not meet the requirements. Please try again.")
+		if err := validatePassword(password); err != nil {
+			fmt.Fprintln(os.Stderr, err.Error())
 			continue
 		}
 
@@ -95,34 +97,21 @@ func PasswordPrompt(label string, toConfirm bool) (string, error) {
 	return password, nil
 }
 
-// TODO: Add password validation logic
-func isValidPassword(password string) bool {
-	// if len(password) < 8 {
-	// 	return false
-	// }
-
-	// var (
-	// 	hasUpper   bool
-	// 	hasLower   bool
-	// 	hasNumber  bool
-	// 	hasSpecial bool
-	// )
-
-	// for _, char := range password {
-	// 	switch {
-	// 	case 'A' <= char && char <= 'Z':
-	// 		hasUpper = true
-	// 	case 'a' <= char && char <= 'z':
-	// 		hasLower = true
-	// 	case '0' <= char && char <= '9':
-	// 		hasNumber = true
-	// 	case strings.ContainsRune("!@#$%^&*()_+-=[]{}|;:,.<>?", char):
-	// 		hasSpecial = true
-	// 	}
-	// }
-
-	// return hasUpper && hasLower && hasNumber && hasSpecial
-	return len(password) > 0
+func validatePassword(password string) error {
+	if len(password) < 8 {
+		return fmt.Errorf("%w: password must be at least 8 characters long", errors.ErrInvalidPassword)
+	}
+	
+	hasUpper := regexp.MustCompile(`[A-Z]`).MatchString(password)
+	hasLower := regexp.MustCompile(`[a-z]`).MatchString(password)
+	hasDigit := regexp.MustCompile(`[0-9]`).MatchString(password)
+	hasSpecial := regexp.MustCompile(`[!@#$%^&*()]`).MatchString(password)
+	
+	if !hasUpper || !hasLower || !hasDigit || !hasSpecial {
+		return fmt.Errorf("%w: password must contain uppercase, lowercase, number, and special character", errors.ErrInvalidPassword)
+	}
+	
+	return nil
 }
 
 // ConfirmPrompt prompts the user for a confirmation input.

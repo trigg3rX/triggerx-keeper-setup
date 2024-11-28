@@ -7,7 +7,7 @@ require (
 	github.com/joho/godotenv v1.5.1
 	github.com/spf13/cobra v1.8.1
 	github.com/spf13/viper v1.19.0
-	github.com/trigg3rX/triggerx-keeper v0.0.0-20241127095339-399e92b99550
+	github.com/trigg3rX/triggerx-keeper v0.0.0-20241128055926-0e056ec0b6f3
 	golang.org/x/term v0.26.0
 )
 
