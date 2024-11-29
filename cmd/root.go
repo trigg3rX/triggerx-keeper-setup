@@ -30,42 +30,18 @@ func init() {
 	cobra.OnInitialize(initConfig)
 
 	registerCmd.GroupID = "1_core"
-	// deregisterCmd.GroupID = "1_core"
+	deregisterCmd.GroupID = "1_core"
 	statusCmd.GroupID = "1_core"
 
 	generateKeystoreCmd.GroupID = "2_keystore"
-	// exportKeystoreCmd.GroupID = "2_keystore"
-	// importKeystoreCmd.GroupID = "2_keystore"
-
-	// updateBLSCmd.GroupID = "3_bls"
-	// removeBLSCmd.GroupID = "3_bls"
-	// addBLSCmd.GroupID = "3_bls"
-	// listBLSCmd.GroupID = "3_bls"
-
-	// updateSignerCmd.GroupID = "4_signer"
-	// removeSignerCmd.GroupID = "4_signer"
-	// addSignerCmd.GroupID = "4_signer"
-	// listSignersCmd.GroupID = "4_signer"
 
 	versionCmd.GroupID = "5_utils"
 
 	rootCmd.AddCommand(registerCmd)
-	// rootCmd.AddCommand(deregisterCmd)
+	rootCmd.AddCommand(deregisterCmd)
 	rootCmd.AddCommand(statusCmd)
 
 	rootCmd.AddCommand(generateKeystoreCmd)
-	// rootCmd.AddCommand(exportKeystoreCmd)
-	// rootCmd.AddCommand(importKeystoreCmd)
-
-	// rootCmd.AddCommand(updateBLSCmd)
-	// rootCmd.AddCommand(removeBLSCmd)
-	// rootCmd.AddCommand(addBLSCmd)
-	// rootCmd.AddCommand(listBLSCmd)
-
-	// rootCmd.AddCommand(updateSignerCmd)
-	// rootCmd.AddCommand(removeSignerCmd)
-	// rootCmd.AddCommand(addSignerCmd)
-	// rootCmd.AddCommand(listSignersCmd)
 
 	rootCmd.AddCommand(versionCmd)
 
@@ -77,14 +53,6 @@ func init() {
 		ID:    "2_keystore",
 		Title: "Keystore Commands:",
 	})
-	// rootCmd.AddGroup(&cobra.Group{
-	// 	ID:    "3_bls",
-	// 	Title: "BLS Commands:",
-	// })
-	// rootCmd.AddGroup(&cobra.Group{
-	// 	ID:    "4_signer",
-	// 	Title: "Signer Commands:",
-	// })
 	rootCmd.AddGroup(&cobra.Group{
 		ID:    "5_utils",
 		Title: "Utility Commands:",
@@ -101,7 +69,7 @@ func initConfig() {
 		cobra.CheckErr(err)
 		viper.AddConfigPath(home)
 		viper.SetConfigType("yaml")
-		viper.SetConfigName(".triggerx-avs-cli")
+		viper.SetConfigName(".triggerx")
 	}
 
 	viper.AutomaticEnv()
