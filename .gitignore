@@ -1,7 +1,0 @@
-.env
-
-!contracts/abis/.gitkeep
-contracts/abis/*.abi
-contracts/abis/*.bin
-
-references/*

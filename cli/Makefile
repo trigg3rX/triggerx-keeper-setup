@@ -5,9 +5,6 @@ help:
 
 ############################# CONTRACTS #############################
 
-generate-bindings: ## Generate bindings
-	./triggerxinterface/generate-bindings.sh
-
 build: ## Build the binary
 	go build -o triggerx
 	mv triggerx /home/nite-sky/bin/triggerx

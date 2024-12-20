@@ -28,35 +28,10 @@ func Execute() {
 
 func init() {
 	cobra.OnInitialize(initConfig)
-
-	registerCmd.GroupID = "1_core"
-	deregisterCmd.GroupID = "1_core"
-	statusCmd.GroupID = "1_core"
-
-	generateKeystoreCmd.GroupID = "2_keystore"
-
-	versionCmd.GroupID = "5_utils"
-
 	rootCmd.AddCommand(registerCmd)
 	rootCmd.AddCommand(deregisterCmd)
 	rootCmd.AddCommand(statusCmd)
-
-	rootCmd.AddCommand(generateKeystoreCmd)
-
 	rootCmd.AddCommand(versionCmd)
-
-	rootCmd.AddGroup(&cobra.Group{
-		ID:    "1_core",
-		Title: "Core Commands:",
-	})
-	rootCmd.AddGroup(&cobra.Group{
-		ID:    "2_keystore",
-		Title: "Keystore Commands:",
-	})
-	rootCmd.AddGroup(&cobra.Group{
-		ID:    "5_utils",
-		Title: "Utility Commands:",
-	})
 
 	rootCmd.CompletionOptions.DisableDefaultCmd = true
 }
