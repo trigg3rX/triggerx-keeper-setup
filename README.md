@@ -25,7 +25,7 @@ The register process requires two sets of private keys: an ecdsa private key and
 We recommend creating a new BLS pair for security reasons.  
 If you want to create a new BLS pair, follow the steps [here](https://docs.eigenlayer.xyz/eigenlayer/operator-guides/operator-installation#create-and-list-keys).
 
-### Register with eoracle AVS
+### Register with TriggerX AVS
 Execute the following command to install the TriggerX CLI
 ```bash
 curl -sSfL https://raw.githubusercontent.com/trigg3rX/triggerx-backend/main/scripts/binary/install.sh | sh -s
@@ -46,3 +46,10 @@ The following command will print the status of the operator
 ```bash
 triggerx status --config triggerx_keeper.yaml
 ```
+
+<!-- 
+Internal team notes:
+- triggerx setup
+- make run-keeper
+- add makefile
+-->
