@@ -1,0 +1,14 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:      
+  - job_name: 'triggerx-keeper-othentic'
+    static_configs:
+      - targets: ['localhost:6060']
+
+  - job_name: 'triggerx-keeper-exec'
+    params:
+      address: ['${OPERATOR_ADDRESS}']
+    static_configs:
+      - targets: ['157.173.218.229:8081']
+    metrics_path: /metrics/keeper
