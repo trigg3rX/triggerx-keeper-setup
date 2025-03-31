@@ -13,7 +13,7 @@ services:
       - '--web.console.templates=/usr/share/prometheus/consoles'
       - '--web.listen-address=0.0.0.0:${PROMETHEUS_PORT}'
     environment:
-      - KEEPER_ADDRESS=${KEEPER_ADDRESS}
+      - OPERATOR_ADDRESS=${OPERATOR_ADDRESS}
       - PROMETHEUS_PORT=${PROMETHEUS_PORT}
     restart: unless-stopped
 
