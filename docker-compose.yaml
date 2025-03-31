@@ -32,6 +32,7 @@ services:
       - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource
       - GF_SERVER_HTTP_PORT=${GRAFANA_PORT}
       - PROMETHEUS_PORT=${PROMETHEUS_PORT}
+      - OPERATOR_ADDRESS=${OPERATOR_ADDRESS}
     restart: unless-stopped
     depends_on:
       - prometheus
