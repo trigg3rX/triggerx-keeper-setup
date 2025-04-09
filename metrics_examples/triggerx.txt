@@ -1,0 +1,6 @@
+# HELP triggerx_keeper_points The total points accumulated by this keeper
+# TYPE triggerx_keeper_points gauge
+triggerx_keeper_points 0
+# HELP triggerx_keeper_task_count The number of tasks executed by this keeper
+# TYPE triggerx_keeper_task_count gauge
+triggerx_keeper_task_count 0
