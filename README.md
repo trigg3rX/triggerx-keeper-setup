@@ -23,7 +23,7 @@ nano .env
 ```
 4. Install Othentic-cli
 ```bash
-npm i -g @othentic/othentic-cli@1.10.1
+npm i -g @othentic/othentic-cli@1.10.0
 ```
 5. Initialize Othentic-cli
 ```bash
