@@ -1,5 +1,5 @@
 # TriggerX Keeper Setup
-This guide will walk you through the process of setting up and monitoring your keepr (operator) on TriggerX AVS.
+This guide will walk you through the process of setting up and monitoring your keeper (operator) on TriggerX AVS.
 
 ## Prerequisites
 - Git
@@ -33,17 +33,34 @@ othentic-cli init
 ```bash
 othentic-cli operator register
 ```
-7. Pull the latest Keeper image
+7. Start Keeper
 ```bash
-docker pull trigg3rx/triggerx-keeper:latest
+./triggerx.sh start
 ```
-8. Start Keeper
+8. Start Monitoring using Grafana
 ```bash
-docker run -d -v ./.env:/root/.env --name triggerx-keeper --network host trigg3rx/triggerx-keeper:latest
+./triggerx.sh start-mon
 ```
-9. Start Monitoring using Grafana
+9. Stop Keeper (and monitoring)
 ```bash
-./start_monitoring.sh
+./triggerx.sh stop
+```
+10. View logs
+```bash
+./triggerx.sh logs
+```
+11. View logs of Services
+```bash
+./triggerx.sh logs-keeper # Keeper logs
+./triggerx.sh logs-othentic # Othentic logs
+```
+12. Status of Services
+```bash
+./triggerx.sh status
+```
+13. Help
+```bash
+./triggerx.sh help
 ```
 
 ### Grafana Dashboard
