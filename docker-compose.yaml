@@ -84,12 +84,12 @@ services:
       - '--storage.tsdb.path=/prometheus'
       - '--web.console.libraries=/usr/share/prometheus/console_libraries'
       - '--web.console.templates=/usr/share/prometheus/consoles'
-      - '--web.listen-address=0.0.0.0:${PROMETHEUS_PORT}'
+      - '--web.listen-address=0.0.0.0:9090'
     environment:
       - OPERATOR_ADDRESS=${OPERATOR_ADDRESS}
-      - PROMETHEUS_PORT=${PROMETHEUS_PORT}
+      - PROMETHEUS_PORT=9090
     ports:
-      - "${PROMETHEUS_PORT}:${PROMETHEUS_PORT}"
+      - "9090:9090"
     restart: unless-stopped
     networks:
       p2p:
@@ -109,7 +109,7 @@ services:
       - GF_USERS_ALLOW_SIGN_UP=false
       - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource
       - GF_SERVER_HTTP_PORT=${GRAFANA_PORT}
-      - PROMETHEUS_PORT=${PROMETHEUS_PORT}
+      - PROMETHEUS_PORT=9090
       - OPERATOR_ADDRESS=${OPERATOR_ADDRESS}
     ports:
       - "${GRAFANA_PORT}:${GRAFANA_PORT}"
