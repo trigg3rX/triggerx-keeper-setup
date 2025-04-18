@@ -11,6 +11,7 @@ show_help() {
     echo "  start         Start the core services (keeper and othentic)"
     echo "  start-mon     Start the core services with monitoring (includes Prometheus and Grafana)"
     echo "  stop          Stop all services"
+    echo "  stop-mon      Stop monitoring services (Prometheus and Grafana)"
     echo "  logs          View logs from all services"
     echo "  logs-keeper   View logs from the keeper service only"
     echo "  logs-othentic View logs from the othentic service only"
@@ -36,6 +37,11 @@ case "$1" in
         docker compose --profile core down
         docker compose --profile monitoring down
         docker volume rm othentic_peerstore_temp || true
+        ;;
+
+    stop-mon)
+        echo "Stopping TriggerX monitoring services..."
+        docker compose --profile monitoring down
         ;;
 
     logs)
