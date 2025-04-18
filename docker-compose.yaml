@@ -1,8 +1,81 @@
+x-othentic-cli: &othentic-cli
+  env_file:
+    - .env
+  build:
+    context: .
+    dockerfile: ./Dockerfile
+
 services:
+  keeper:
+    profiles: ["core"]
+    image: trigg3rx/triggerx-keeper:0.0.7
+    container_name: triggerx-keeper
+    env_file:
+      - .env
+    command: [
+        "sh",
+        "./start-keeper.sh"
+      ]
+    environment:
+      - PRIVATE_KEY=${PRIVATE_KEY}
+      - OPERATOR_ADDRESS=${OPERATOR_ADDRESS}
+      - OPERATOR_RPC_PORT=${OPERATOR_RPC_PORT}
+      - PUBLIC_IPV4_ADDRESS=${PUBLIC_IPV4_ADDRESS}
+      - PEER_ID=${PEER_ID}
+      - L1_RPC=${L1_RPC}
+      - PINATA_API_KEY=${PINATA_API_KEY}
+      - PINATA_SECRET_API_KEY=${PINATA_SECRET_API_KEY}
+      - IPFS_HOST=${IPFS_HOST}
+      - OTHENTIC_CLIENT_RPC_ADDRESS=${OTHENTIC_CLIENT_RPC_ADDRESS}
+      - HEALTH_IP_ADDRESS=${HEALTH_IP_ADDRESS}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "${OPERATOR_RPC_PORT}:${OPERATOR_RPC_PORT}"
+    networks:
+      p2p:
+        ipv4_address: 172.28.0.42
+
+  othentic:
+    profiles: ["core"]
+    container_name: triggerx-othentic
+    <<: *othentic-cli
+    command: [
+      "node",
+      "attester",
+      "/ip4/157.173.218.229/tcp/9876/p2p/${OTHENTIC_BOOTSTRAP_ID}",
+      "--avs-webapi", "http://172.28.0.42",
+      "--avs-webapi-port", "${OPERATOR_RPC_PORT}",
+      "--l1-chain", "holesky",
+      "--l2-chain", "base-sepolia",
+      "--json-rpc.custom-message-enabled",
+      "--p2p.port", "${OPERATOR_P2P_PORT}",
+      "--p2p.datadir", "peerstore/othentic",
+      "--p2p.discovery-interval", "60000",
+      "--metrics",
+      "--metrics.port", "${OPERATOR_METRICS_PORT}"
+    ]
+    environment:
+      - L1_RPC=${L1_RPC}
+      - L2_RPC=${L2_RPC}
+      - PRIVATE_KEY=${PRIVATE_KEY}
+      - OPERATOR_ADDRESS=${OPERATOR_ADDRESS}
+      - LOG_DIR=logs/othentic
+    volumes:
+      - othentic_peerstore:/app/peerstore/othentic
+    ports:
+      - "${OPERATOR_P2P_PORT}:${OPERATOR_P2P_PORT}"
+    depends_on:
+      keeper:
+        condition: service_started
+    networks:
+      p2p:
+        ipv4_address: 172.28.0.69
+
   prometheus:
+    profiles: ["monitoring"]
     image: prom/prometheus:latest
     container_name: triggerx-prometheus
-    network_mode: "host"
     volumes:
       - ./prometheus.yaml:/etc/prometheus/prometheus.yaml
       - prometheus_data:/prometheus
@@ -15,12 +88,17 @@ services:
     environment:
       - OPERATOR_ADDRESS=${OPERATOR_ADDRESS}
       - PROMETHEUS_PORT=${PROMETHEUS_PORT}
+    ports:
+      - "${PROMETHEUS_PORT}:${PROMETHEUS_PORT}"
     restart: unless-stopped
+    networks:
+      p2p:
+        ipv4_address: 172.28.0.90
 
   grafana:
+    profiles: ["monitoring"]
     image: grafana/grafana:latest
     container_name: triggerx-grafana
-    network_mode: "host"
     volumes:
       - ./grafana/provisioning:/etc/grafana/provisioning
       - ./grafana/dashboards:/var/lib/grafana/dashboards
@@ -33,10 +111,26 @@ services:
       - GF_SERVER_HTTP_PORT=${GRAFANA_PORT}
       - PROMETHEUS_PORT=${PROMETHEUS_PORT}
       - OPERATOR_ADDRESS=${OPERATOR_ADDRESS}
+    ports:
+      - "${GRAFANA_PORT}:${GRAFANA_PORT}"
     restart: unless-stopped
     depends_on:
       - prometheus
+    networks:
+      p2p:
+        ipv4_address: 172.28.0.91
+
+networks:
+  p2p:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 172.28.0.0/16
+         gateway: 172.28.0.1
 
 volumes:
   prometheus_data:
   grafana_data:
+  othentic_peerstore:
+    name: othentic_peerstore_temp
+    external: false
