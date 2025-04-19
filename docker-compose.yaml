@@ -45,7 +45,7 @@ services:
     command: [
       "node",
       "attester",
-      "/ip4/157.173.218.229/tcp/9876/p2p/${OTHENTIC_BOOTSTRAP_ID}",
+      "/ip4/${AGGREGATOR_IP}/tcp/9876/p2p/${OTHENTIC_BOOTSTRAP_ID}",
       "--avs-webapi", "http://172.28.0.42",
       "--avs-webapi-port", "${OPERATOR_RPC_PORT}",
       "--l1-chain", "holesky",
@@ -63,6 +63,7 @@ services:
       - L2_RPC=${L2_RPC}
       - PRIVATE_KEY=${PRIVATE_KEY}
       - OPERATOR_ADDRESS=${OPERATOR_ADDRESS}
+      - AGGREGATOR_IP=${AGGREGATOR_IP}
       - LOG_DIR=logs/othentic
     volumes:
       - othentic_peerstore:/app/peerstore/othentic
