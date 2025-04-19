@@ -40,6 +40,8 @@ services:
     profiles: ["core"]
     container_name: triggerx-othentic
     <<: *othentic-cli
+    env_file:
+      - .env
     command: [
       "node",
       "attester",
@@ -53,7 +55,8 @@ services:
       "--p2p.datadir", "peerstore/othentic",
       "--p2p.discovery-interval", "60000",
       "--metrics",
-      "--metrics.port", "${OPERATOR_METRICS_PORT}"
+      "--metrics.port", "${OPERATOR_METRICS_PORT}",
+      "--announced-addresses", "/ip4/${PUBLIC_IPV4_ADDRESS}/tcp/${OPERATOR_P2P_PORT}/p2p/${PEER_ID}"
     ]
     environment:
       - L1_RPC=${L1_RPC}
