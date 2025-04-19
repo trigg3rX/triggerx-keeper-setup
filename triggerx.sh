@@ -45,7 +45,7 @@ case "$1" in
         ;;
 
     logs)
-        docker compose logs -f
+        docker compose --profile core logs -f
         ;;
 
     logs-keeper)
