@@ -28,13 +28,13 @@ services:
       - IPFS_HOST=${IPFS_HOST}
       - OTHENTIC_CLIENT_RPC_ADDRESS=${OTHENTIC_CLIENT_RPC_ADDRESS}
       - HEALTH_IP_ADDRESS=${HEALTH_IP_ADDRESS}
+      - KEEPER_HOST=keeper
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - "${OPERATOR_RPC_PORT}:${OPERATOR_RPC_PORT}"
     networks:
-      p2p:
-        ipv4_address: 172.28.0.42
+      - p2p
 
   othentic:
     profiles: ["core"]
@@ -45,8 +45,8 @@ services:
     command: [
       "node",
       "attester",
-      "/ip4/${AGGREGATOR_IP}/tcp/9876/p2p/${OTHENTIC_BOOTSTRAP_ID}",
-      "--avs-webapi", "http://172.28.0.42",
+      "/ip4/157.173.218.229/tcp/9876/p2p/${OTHENTIC_BOOTSTRAP_ID}",
+      "--avs-webapi", "http://keeper:${OPERATOR_RPC_PORT}",
       "--avs-webapi-port", "${OPERATOR_RPC_PORT}",
       "--l1-chain", "holesky",
       "--l2-chain", "base-sepolia",
@@ -63,8 +63,8 @@ services:
       - L2_RPC=${L2_RPC}
       - PRIVATE_KEY=${PRIVATE_KEY}
       - OPERATOR_ADDRESS=${OPERATOR_ADDRESS}
-      - AGGREGATOR_IP=${AGGREGATOR_IP}
       - LOG_DIR=logs/othentic
+      - KEEPER_HOST=keeper
     volumes:
       - othentic_peerstore:/app/peerstore/othentic
     ports:
@@ -73,8 +73,7 @@ services:
       keeper:
         condition: service_started
     networks:
-      p2p:
-        ipv4_address: 172.28.0.69
+      - p2p
 
   prometheus:
     profiles: ["monitoring"]
@@ -96,8 +95,7 @@ services:
       - "9090:9090"
     restart: unless-stopped
     networks:
-      p2p:
-        ipv4_address: 172.28.0.90
+      - p2p
 
   grafana:
     profiles: ["monitoring"]
@@ -121,16 +119,11 @@ services:
     depends_on:
       - prometheus
     networks:
-      p2p:
-        ipv4_address: 172.28.0.91
+      - p2p
 
 networks:
   p2p:
     driver: bridge
-    ipam:
-     config:
-       - subnet: 172.28.0.0/16
-         gateway: 172.28.0.1
 
 volumes:
   prometheus_data:
