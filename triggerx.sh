@@ -24,41 +24,41 @@ show_help() {
 case "$1" in
     start)
         echo "Starting TriggerX core services..."
-        docker compose --profile core up -d
+        docker-compose --profile core up -d
         ;;
 
     start-mon)
         echo "Starting TriggerX with monitoring services..."
-        docker compose --profile monitoring up -d
+        docker-compose --profile monitoring up -d
         ;;
 
     stop)
         echo "Stopping TriggerX services..."
-        docker compose --profile core down
-        docker compose --profile monitoring down
+        docker-compose --profile core down
+        docker-compose --profile monitoring down
         docker volume rm othentic_peerstore_temp || true
         ;;
 
     stop-mon)
         echo "Stopping TriggerX monitoring services..."
-        docker compose --profile monitoring down
+        docker-compose --profile monitoring down
         ;;
 
     logs)
-        docker compose --profile core logs -f
+        docker-compose --profile core logs -f
         ;;
 
     logs-keeper)
-        docker compose logs -f keeper
+        docker-compose logs -f keeper
         ;;
 
     logs-othentic)
-        docker compose logs -f othentic
+        docker-compose logs -f othentic
         ;;
 
     status)
         echo "TriggerX Service Status:"
-        docker compose ps
+        docker-compose ps
         ;;
 
     help|--help|-h)
