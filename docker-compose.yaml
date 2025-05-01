@@ -69,6 +69,7 @@ services:
       - othentic_peerstore:/app/peerstore/othentic
     ports:
       - "${OPERATOR_P2P_PORT}:${OPERATOR_P2P_PORT}"
+      - "${OPERATOR_METRICS_PORT}:${OPERATOR_METRICS_PORT}"
     depends_on:
       keeper:
         condition: service_started
@@ -94,6 +95,8 @@ services:
     ports:
       - "9090:9090"
     restart: unless-stopped
+    depends_on:
+      - othentic
     networks:
       - p2p
 

@@ -28,6 +28,23 @@ case "$1" in
         ;;
 
     start-mon)
+        source .env
+cat > prometheus.yaml << EOF
+global:
+  scrape_interval: 15s
+
+scrape_configs:      
+  - job_name: 'triggerx-keeper-othentic'
+    static_configs:
+      - targets: ['othentic:${OPERATOR_METRICS_PORT}']
+
+  - job_name: 'triggerx-keeper-exec'
+    params:
+      address: ['${OPERATOR_ADDRESS}']
+    static_configs:
+      - targets: ['157.173.218.229:8081']
+    metrics_path: /metrics/keeper
+EOF
         echo "Starting TriggerX with monitoring services..."
         docker-compose --profile monitoring up -d
         ;;
