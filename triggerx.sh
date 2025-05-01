@@ -2,6 +2,32 @@
 
 # TriggerX Management Script
 
+# Check which docker compose command is available
+check_docker_compose() {
+  if command -v docker &>/dev/null; then
+    if docker compose version &>/dev/null; then
+      echo "docker compose"
+      return 0
+    elif command -v docker-compose &>/dev/null; then
+      echo "docker-compose"
+      return 0
+    else
+      echo "Neither 'docker compose' nor 'docker-compose' found. Please install Docker Compose."
+      return 1
+    fi
+  else
+    echo "Docker is not installed. Please install Docker and Docker Compose."
+    return 1
+  fi
+}
+
+# Get the appropriate docker compose command
+DOCKER_COMPOSE_CMD=$(check_docker_compose)
+if [ $? -ne 0 ]; then
+  echo "$DOCKER_COMPOSE_CMD"
+  exit 1
+fi
+
 # Display help information
 show_help() {
     echo "TriggerX Management Script"
@@ -24,7 +50,7 @@ show_help() {
 case "$1" in
     start)
         echo "Starting TriggerX core services..."
-        docker-compose --profile core up -d
+        $DOCKER_COMPOSE_CMD --profile core up -d
         ;;
 
     start-mon)
@@ -46,36 +72,36 @@ scrape_configs:
     metrics_path: /metrics/keeper
 EOF
         echo "Starting TriggerX with monitoring services..."
-        docker-compose --profile monitoring up -d
+        $DOCKER_COMPOSE_CMD --profile core --profile monitoring up -d
         ;;
 
     stop)
         echo "Stopping TriggerX services..."
-        docker-compose --profile core down
-        docker-compose --profile monitoring down
+        $DOCKER_COMPOSE_CMD --profile core down
+        $DOCKER_COMPOSE_CMD --profile monitoring down
         docker volume rm othentic_peerstore_temp || true
         ;;
 
     stop-mon)
         echo "Stopping TriggerX monitoring services..."
-        docker-compose --profile monitoring down
+        $DOCKER_COMPOSE_CMD --profile monitoring down
         ;;
 
     logs)
-        docker-compose --profile core logs -f
+        $DOCKER_COMPOSE_CMD --profile core logs -f
         ;;
 
     logs-keeper)
-        docker-compose logs -f keeper
+        $DOCKER_COMPOSE_CMD logs -f keeper
         ;;
 
     logs-othentic)
-        docker-compose logs -f othentic
+        $DOCKER_COMPOSE_CMD logs -f othentic
         ;;
 
     status)
         echo "TriggerX Service Status:"
-        docker-compose ps
+        $DOCKER_COMPOSE_CMD ps
         ;;
 
     help|--help|-h)
