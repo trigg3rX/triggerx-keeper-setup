@@ -18,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 8,
+  "id": 1,
   "links": [],
   "panels": [
     {
@@ -43,7 +43,7 @@
         "content": "# Keeper Performance Metrics",
         "mode": "markdown"
       },
-      "pluginVersion": "11.6.0",
+      "pluginVersion": "11.6.1",
       "title": "",
       "type": "text"
     },
@@ -123,7 +123,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "11.6.0",
+      "pluginVersion": "11.6.1",
       "targets": [
         {
           "datasource": {
@@ -218,7 +218,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "11.6.0",
+      "pluginVersion": "11.6.1",
       "targets": [
         {
           "datasource": {
@@ -313,15 +313,17 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "11.6.0",
+      "pluginVersion": "11.6.1",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "expr": "gossipsub_msg_publish_count_total{topic=\"othentic.p2p.attest\"}",
+          "editorMode": "code",
+          "expr": "gossipsub_topic_peer_count{topicStr=\"othentic.p2p.attest\"}",
           "legendFormat": "Attestations",
+          "range": true,
           "refId": "A"
         }
       ],
@@ -350,7 +352,7 @@
         "content": "# System Health Overview",
         "mode": "markdown"
       },
-      "pluginVersion": "11.6.0",
+      "pluginVersion": "11.6.1",
       "title": "",
       "type": "text"
     },
@@ -408,7 +410,7 @@
         "showThresholdMarkers": true,
         "sizing": "auto"
       },
-      "pluginVersion": "11.6.0",
+      "pluginVersion": "11.6.1",
       "targets": [
         {
           "datasource": {
@@ -476,7 +478,7 @@
         "showThresholdMarkers": true,
         "sizing": "auto"
       },
-      "pluginVersion": "11.6.0",
+      "pluginVersion": "11.6.1",
       "targets": [
         {
           "datasource": {
@@ -570,7 +572,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "11.6.0",
+      "pluginVersion": "11.6.1",
       "targets": [
         {
           "datasource": {
@@ -636,7 +638,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "11.6.0",
+      "pluginVersion": "11.6.1",
       "targets": [
         {
           "datasource": {
@@ -705,7 +707,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "11.6.0",
+      "pluginVersion": "11.6.1",
       "targets": [
         {
           "datasource": {
@@ -775,7 +777,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "11.6.0",
+      "pluginVersion": "11.6.1",
       "targets": [
         {
           "datasource": {
@@ -811,7 +813,7 @@
         "content": "# Network Participation Metrics",
         "mode": "markdown"
       },
-      "pluginVersion": "11.6.0",
+      "pluginVersion": "11.6.1",
       "title": "",
       "type": "text"
     },
@@ -895,7 +897,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.6.0",
+      "pluginVersion": "11.6.1",
       "targets": [
         {
           "datasource": {
@@ -986,7 +988,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "11.6.0",
+      "pluginVersion": "11.6.1",
       "targets": [
         {
           "datasource": {
@@ -1056,14 +1058,16 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "11.6.0",
+      "pluginVersion": "11.6.1",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "expr": "libp2p_kad_dht_routing_table_size",
+          "editorMode": "code",
+          "expr": "libp2p_dht_amino_routing_table_size",
+          "range": true,
           "refId": "A"
         }
       ],
@@ -1125,7 +1129,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "11.6.0",
+      "pluginVersion": "11.6.1",
       "targets": [
         {
           "datasource": {
@@ -1218,15 +1222,17 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "11.6.0",
+      "pluginVersion": "11.6.1",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "expr": "libp2p_kad_dht_outbound_rpc_requests_total",
+          "editorMode": "code",
+          "expr": "libp2p_dht_amino_outbound_rpc_requests_total{libp2p_dht_amino_outbound_rpc_requests_total=\"PING\"}",
           "legendFormat": "{{libp2p_kad_dht_outbound_rpc_requests_total}}",
+          "range": true,
           "refId": "A"
         }
       ],
@@ -1311,7 +1317,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.6.0",
+      "pluginVersion": "11.6.1",
       "targets": [
         {
           "datasource": {
@@ -1357,7 +1363,7 @@
         "content": "# Message Processing Performance",
         "mode": "markdown"
       },
-      "pluginVersion": "11.6.0",
+      "pluginVersion": "11.6.1",
       "title": "",
       "type": "text"
     },
@@ -1441,15 +1447,17 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "11.6.0",
+      "pluginVersion": "11.6.1",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
+          "editorMode": "code",
           "expr": "rate(gossipsub_msg_publish_seconds_sum[5m]) / rate(gossipsub_msg_publish_seconds_count[5m])",
           "legendFormat": "{{topic}}",
+          "range": true,
           "refId": "A"
         }
       ],
@@ -1544,7 +1552,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "11.6.0",
+      "pluginVersion": "11.6.1",
       "targets": [
         {
           "datasource": {
@@ -1657,15 +1665,17 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "11.6.0",
+      "pluginVersion": "11.6.1",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
+          "editorMode": "code",
           "expr": "rate(nodejs_gc_duration_seconds_sum[5m]) / rate(nodejs_gc_duration_seconds_count[5m])",
           "legendFormat": "{{kind}}",
+          "range": true,
           "refId": "A"
         }
       ],
@@ -1748,15 +1758,17 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "11.6.0",
+      "pluginVersion": "11.6.1",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
+          "editorMode": "code",
           "expr": "gossipsub_rpc_recv_count_total",
           "legendFormat": "Received",
+          "range": true,
           "refId": "A"
         },
         {
@@ -1764,8 +1776,10 @@
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
+          "editorMode": "code",
           "expr": "gossipsub_rpc_sent_count_total",
           "legendFormat": "Sent",
+          "range": true,
           "refId": "B"
         }
       ],
@@ -1993,5 +2007,5 @@
   "timezone": "browser",
   "title": "TriggerX Keeper Dashboard",
   "uid": "be57l7novo8hsf",
-  "version": 2
+  "version": 1
 }
