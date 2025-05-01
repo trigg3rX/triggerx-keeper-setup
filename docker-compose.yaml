@@ -95,8 +95,6 @@ services:
     ports:
       - "9090:9090"
     restart: unless-stopped
-    depends_on:
-      - othentic
     networks:
       - p2p
 
