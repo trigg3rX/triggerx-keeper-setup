@@ -8,7 +8,7 @@ x-othentic-cli: &othentic-cli
 services:
   keeper:
     profiles: ["core"]
-    image: trigg3rx/triggerx-keeper:0.1.0
+    image: trigg3rx/triggerx-keeper:0.1.1
     container_name: triggerx-keeper
     env_file:
       - .env
