@@ -8,7 +8,7 @@ x-othentic-cli: &othentic-cli
 services:
   keeper:
     profiles: ["core"]
-    image: trigg3rx/triggerx-keeper:0.1.1
+    image: trigg3rx/triggerx-keeper:0.1.3
     container_name: triggerx-keeper
     env_file:
       - .env
@@ -23,9 +23,6 @@ services:
       - PUBLIC_IPV4_ADDRESS=${PUBLIC_IPV4_ADDRESS}
       - PEER_ID=${PEER_ID}
       - L1_RPC=${L1_RPC}
-      - PINATA_API_KEY=${PINATA_API_KEY}
-      - PINATA_SECRET_API_KEY=${PINATA_SECRET_API_KEY}
-      - IPFS_HOST=${IPFS_HOST}
       - OTHENTIC_CLIENT_RPC_ADDRESS=${OTHENTIC_CLIENT_RPC_ADDRESS}
       - HEALTH_IP_ADDRESS=${HEALTH_IP_ADDRESS}
       - KEEPER_HOST=keeper

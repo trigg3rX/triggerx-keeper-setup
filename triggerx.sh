@@ -70,6 +70,12 @@ scrape_configs:
     static_configs:
       - targets: ['157.173.218.229:8081']
     metrics_path: /metrics/keeper
+
+  - job_name: 'triggerx-keeper-custom'
+    static_configs:
+      - targets: ['keeper:9021']
+    metrics_path: /metrics
+    scrape_interval: 15s
 EOF
         echo "Starting TriggerX with monitoring services..."
         $DOCKER_COMPOSE_CMD --profile core --profile monitoring up -d

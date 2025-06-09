@@ -4,11 +4,10 @@ global:
 scrape_configs:      
   - job_name: 'triggerx-keeper-othentic'
     static_configs:
-      - targets: ['othentic:9009']
+      - targets: ['othentic:9023']
 
-  - job_name: 'triggerx-keeper-exec'
-    params:
-      address: ['0x011FCbAE5f306cd793456ab7d4c0CC86756c693D']
+  - job_name: 'triggerx-keeper-custom'
     static_configs:
-      - targets: ['157.173.218.229:8081']
-    metrics_path: /metrics/keeper
+      - targets: ['keeper:9021']
+    metrics_path: /metrics
+    scrape_interval: 15s
