@@ -1,0 +1,124 @@
+# HELP triggerx_keeper_uptime_seconds Service uptime in seconds
+# TYPE triggerx_keeper_uptime_seconds gauge
+triggerx_keeper_uptime_seconds 3600.5
+
+# HELP triggerx_keeper_tasks_received_total Total number of tasks received
+# TYPE triggerx_keeper_tasks_received_total counter
+triggerx_keeper_tasks_received_total 150
+
+# HELP triggerx_keeper_tasks_completed_total Total number of tasks completed by type
+# TYPE triggerx_keeper_tasks_completed_total counter
+triggerx_keeper_tasks_completed_total{type="executed"} 120
+triggerx_keeper_tasks_completed_total{type="validated"} 145
+
+# HELP triggerx_keeper_task_duration_seconds Task execution duration by type
+# TYPE triggerx_keeper_task_duration_seconds histogram
+triggerx_keeper_task_duration_seconds_bucket{type="executed",le="0.1"} 10
+triggerx_keeper_task_duration_seconds_bucket{type="executed",le="0.5"} 25
+triggerx_keeper_task_duration_seconds_bucket{type="executed",le="1.0"} 50
+triggerx_keeper_task_duration_seconds_bucket{type="executed",le="5.0"} 100
+triggerx_keeper_task_duration_seconds_bucket{type="executed",le="+Inf"} 120
+triggerx_keeper_task_duration_seconds_sum{type="executed"} 156.7
+triggerx_keeper_task_duration_seconds_count{type="executed"} 120
+triggerx_keeper_task_duration_seconds_bucket{type="validated",le="0.1"} 20
+triggerx_keeper_task_duration_seconds_bucket{type="validated",le="0.5"} 60
+triggerx_keeper_task_duration_seconds_bucket{type="validated",le="1.0"} 100
+triggerx_keeper_task_duration_seconds_bucket{type="validated",le="5.0"} 140
+triggerx_keeper_task_duration_seconds_bucket{type="validated",le="+Inf"} 145
+triggerx_keeper_task_duration_seconds_sum{type="validated"} 189.3
+triggerx_keeper_task_duration_seconds_count{type="validated"} 145
+
+# HELP triggerx_keeper_tasks_by_definition_id_total Total tasks by definition ID
+# TYPE triggerx_keeper_tasks_by_definition_id_total counter
+triggerx_keeper_tasks_by_definition_id_total{id="task_1"} 45
+triggerx_keeper_tasks_by_definition_id_total{id="task_2"} 30
+triggerx_keeper_tasks_by_definition_id_total{id="task_3"} 75
+
+# HELP triggerx_keeper_transactions_sent_total Total transactions sent by chain and status
+# TYPE triggerx_keeper_transactions_sent_total counter
+triggerx_keeper_transactions_sent_total{chain_id="1",status="success"} 95
+triggerx_keeper_transactions_sent_total{chain_id="1",status="failed"} 5
+triggerx_keeper_transactions_sent_total{chain_id="137",status="success"} 48
+triggerx_keeper_transactions_sent_total{chain_id="137",status="failed"} 2
+
+# HELP triggerx_keeper_gas_used_total Total gas used by chain
+# TYPE triggerx_keeper_gas_used_total counter
+triggerx_keeper_gas_used_total{chain_id="1"} 2100000
+triggerx_keeper_gas_used_total{chain_id="137"} 1050000
+
+# HELP triggerx_keeper_transaction_fees_total Total transaction fees paid by chain
+# TYPE triggerx_keeper_transaction_fees_total counter
+triggerx_keeper_transaction_fees_total{chain_id="1"} 0.042
+triggerx_keeper_transaction_fees_total{chain_id="137"} 0.0021
+
+# HELP triggerx_keeper_ipfs_download_size_bytes Total bytes downloaded from IPFS
+# TYPE triggerx_keeper_ipfs_download_size_bytes counter
+triggerx_keeper_ipfs_download_size_bytes 1048576
+
+# HELP triggerx_keeper_ipfs_upload_size_bytes Total bytes uploaded to IPFS
+# TYPE triggerx_keeper_ipfs_upload_size_bytes counter
+triggerx_keeper_ipfs_upload_size_bytes 524288
+
+# HELP triggerx_keeper_successful_health_checkins_total Total successful health check-ins
+# TYPE triggerx_keeper_successful_health_checkins_total counter
+triggerx_keeper_successful_health_checkins_total 72
+
+# HELP triggerx_keeper_memory_usage_bytes Current memory usage in bytes
+# TYPE triggerx_keeper_memory_usage_bytes gauge
+triggerx_keeper_memory_usage_bytes 134217728
+
+# HELP triggerx_keeper_cpu_usage_percent Current CPU usage percentage
+# TYPE triggerx_keeper_cpu_usage_percent gauge
+triggerx_keeper_cpu_usage_percent 15.5
+
+# HELP triggerx_keeper_goroutines_active Number of active goroutines
+# TYPE triggerx_keeper_goroutines_active gauge
+triggerx_keeper_goroutines_active 42
+
+# HELP triggerx_keeper_gc_duration_seconds Garbage collection duration
+# TYPE triggerx_keeper_gc_duration_seconds histogram
+triggerx_keeper_gc_duration_seconds_bucket{le="0.001"} 50
+triggerx_keeper_gc_duration_seconds_bucket{le="0.01"} 85
+triggerx_keeper_gc_duration_seconds_bucket{le="0.1"} 95
+triggerx_keeper_gc_duration_seconds_bucket{le="1.0"} 100
+triggerx_keeper_gc_duration_seconds_bucket{le="+Inf"} 100
+triggerx_keeper_gc_duration_seconds_sum 0.45
+triggerx_keeper_gc_duration_seconds_count 100
+
+# HELP triggerx_keeper_docker_containers_created_total Total Docker containers created
+# TYPE triggerx_keeper_docker_containers_created_total counter
+triggerx_keeper_docker_containers_created_total 25
+
+# HELP triggerx_keeper_docker_container_duration_seconds Duration of Docker container execution
+# TYPE triggerx_keeper_docker_container_duration_seconds histogram
+triggerx_keeper_docker_container_duration_seconds_bucket{le="1"} 5
+triggerx_keeper_docker_container_duration_seconds_bucket{le="10"} 15
+triggerx_keeper_docker_container_duration_seconds_bucket{le="60"} 20
+triggerx_keeper_docker_container_duration_seconds_bucket{le="300"} 25
+triggerx_keeper_docker_container_duration_seconds_bucket{le="+Inf"} 25
+triggerx_keeper_docker_container_duration_seconds_sum 450.7
+triggerx_keeper_docker_container_duration_seconds_count 25
+
+# HELP triggerx_keeper_docker_operations_total Total Docker operations by type
+# TYPE triggerx_keeper_docker_operations_total counter
+triggerx_keeper_docker_operations_total{operation="create"} 25
+triggerx_keeper_docker_operations_total{operation="start"} 25
+triggerx_keeper_docker_operations_total{operation="stop"} 23
+triggerx_keeper_docker_operations_total{operation="remove"} 22
+
+# HELP triggerx_keeper_task_success_rate Task success rate by type
+# TYPE triggerx_keeper_task_success_rate gauge
+triggerx_keeper_task_success_rate{type="executed"} 0.96
+triggerx_keeper_task_success_rate{type="validated"} 0.98
+
+# HELP triggerx_keeper_average_task_completion_time_seconds Average task completion time
+# TYPE triggerx_keeper_average_task_completion_time_seconds gauge
+triggerx_keeper_average_task_completion_time_seconds 1.31
+
+# HELP triggerx_keeper_tasks_per_minute Current tasks processed per minute
+# TYPE triggerx_keeper_tasks_per_minute gauge
+triggerx_keeper_tasks_per_minute 2.5
+
+# HELP triggerx_keeper_restarts_total Total number of service restarts
+# TYPE triggerx_keeper_restarts_total counter
+triggerx_keeper_restarts_total 2 
