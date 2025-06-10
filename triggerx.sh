@@ -60,22 +60,14 @@ global:
   scrape_interval: 15s
 
 scrape_configs:      
-  - job_name: 'triggerx-keeper-othentic'
+  - job_name: 'triggerx-keeper-attester'
     static_configs:
       - targets: ['othentic:${OPERATOR_METRICS_PORT}']
 
-  - job_name: 'triggerx-keeper-exec'
-    params:
-      address: ['${OPERATOR_ADDRESS}']
+  - job_name: 'triggerx-keeper-server'
     static_configs:
-      - targets: ['157.173.218.229:8081']
-    metrics_path: /metrics/keeper
-
-  - job_name: 'triggerx-keeper-custom'
-    static_configs:
-      - targets: ['keeper:9021']
+      - targets: ['keeper:${OPERATOR_RPC_PORT}']
     metrics_path: /metrics
-    scrape_interval: 15s
 EOF
         echo "Starting TriggerX with monitoring services..."
         $DOCKER_COMPOSE_CMD --profile core --profile monitoring up -d

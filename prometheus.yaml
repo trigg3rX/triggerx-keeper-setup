@@ -2,12 +2,12 @@ global:
   scrape_interval: 15s
 
 scrape_configs:      
-  - job_name: 'triggerx-keeper-othentic'
+  - job_name: 'triggerx-keeper-attester'
     static_configs:
-      - targets: ['othentic:9023']
+      - targets: ['othentic:9009']
 
-  - job_name: 'triggerx-keeper-custom'
+  - job_name: 'triggerx-keeper-server'
     static_configs:
-      - targets: ['keeper:9021']
+      - targets: ['keeper:9005']
     metrics_path: /metrics
     scrape_interval: 15s

@@ -60,16 +60,21 @@ services:
       - L2_RPC=${L2_RPC}
       - PRIVATE_KEY=${PRIVATE_KEY}
       - OPERATOR_ADDRESS=${OPERATOR_ADDRESS}
+      - OPERATOR_P2P_PORT=${OPERATOR_P2P_PORT}
+      - OPERATOR_METRICS_PORT=${OPERATOR_METRICS_PORT}
+      - PUBLIC_IPV4_ADDRESS=${PUBLIC_IPV4_ADDRESS}
+      - PEER_ID=${PEER_ID}
       - LOG_DIR=data/logs/othentic
+      - OTHENTIC_BOOTSTRAP_ID=${OTHENTIC_BOOTSTRAP_ID}
       - KEEPER_HOST=keeper
     volumes:
       - othentic_peerstore:/app/peerstore/othentic
     ports:
       - "${OPERATOR_P2P_PORT}:${OPERATOR_P2P_PORT}"
       - "${OPERATOR_METRICS_PORT}:${OPERATOR_METRICS_PORT}"
-    depends_on:
-      keeper:
-        condition: service_started
+    # depends_on:
+    #   keeper:
+    #     condition: service_started
     networks:
       - p2p
 
