@@ -68,7 +68,7 @@ services:
       - OTHENTIC_BOOTSTRAP_ID=${OTHENTIC_BOOTSTRAP_ID}
       - KEEPER_HOST=keeper
     volumes:
-      - othentic_peerstore:/app/peerstore/othentic
+      - ./othentic_peerstore:/app/peerstore/othentic
     ports:
       - "${OPERATOR_P2P_PORT}:${OPERATOR_P2P_PORT}"
       - "${OPERATOR_METRICS_PORT}:${OPERATOR_METRICS_PORT}"
