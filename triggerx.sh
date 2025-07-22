@@ -28,6 +28,40 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
+# Get Docker group ID for container access
+get_docker_group_id() {
+  if command -v getent &> /dev/null; then
+    DOCKER_GROUP_ID=$(getent group docker | cut -d: -f3)
+    if [ -n "$DOCKER_GROUP_ID" ]; then
+      echo "Detected Docker group ID: $DOCKER_GROUP_ID"
+      export DOCKER_GROUP_ID
+    else
+      echo "Warning: Could not detect Docker group ID, using default 999"
+      export DOCKER_GROUP_ID=999
+    fi
+  else
+    echo "Warning: getent not available, using default Docker group ID 999"
+    export DOCKER_GROUP_ID=999
+  fi
+}
+
+# Setup persistent storage directories with proper permissions
+setup_persistent_storage() {
+  echo "Setting up persistent storage directories..."
+  
+  # Create directories in user home for persistent storage
+  mkdir -p ~/.triggerx/cache
+  mkdir -p ~/.triggerx/logs/keeper
+  mkdir -p ~/.triggerx/logs/othentic
+  mkdir -p ~/.triggerx/peerstore/attester
+  mkdir -p ~/.triggerx/peerstore/othentic
+  
+  # Set permissions for user directories
+  chmod -R 755 ~/.triggerx
+  
+  echo "Persistent storage setup complete in user home (~/.triggerx/)"
+}
+
 # Display help information
 show_help() {
     echo "TriggerX Management Script"
@@ -49,11 +83,23 @@ show_help() {
 # Handle command line arguments
 case "$1" in
     start)
+        # echo "Setting up persistent storage..."
+        setup_persistent_storage
+        
+        # echo "Detecting Docker group ID..."
+        get_docker_group_id
+        
         echo "Starting TriggerX core services..."
         $DOCKER_COMPOSE_CMD --profile core up -d
         ;;
 
     start-mon)
+        # echo "Setting up persistent storage..."
+        setup_persistent_storage
+        
+        # echo "Detecting Docker group ID..."
+        get_docker_group_id
+        
         source .env
 cat > prometheus.yaml << EOF
 global:
@@ -77,6 +123,7 @@ EOF
         echo "Stopping TriggerX services..."
         $DOCKER_COMPOSE_CMD --profile core down
         $DOCKER_COMPOSE_CMD --profile monitoring down
+        # Clean up any old volumes if they exist
         docker volume rm othentic_peerstore_temp || true
         ;;
 

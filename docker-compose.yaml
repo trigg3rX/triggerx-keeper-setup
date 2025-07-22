@@ -28,10 +28,16 @@ services:
       - KEEPER_HOST=keeper
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - ~/.triggerx/cache:/home/triggerx/data/cache
+      - ~/.triggerx/logs:/home/triggerx/data/logs
+      - ~/.triggerx/peerstore:/home/triggerx/data/peerstore
     ports:
       - "${OPERATOR_RPC_PORT}:${OPERATOR_RPC_PORT}"
+    restart: unless-stopped
     networks:
       - p2p
+    group_add:
+      - "${DOCKER_GROUP_ID:-999}"
 
   othentic:
     profiles: ["core"]
@@ -68,13 +74,15 @@ services:
       - OTHENTIC_BOOTSTRAP_ID=${OTHENTIC_BOOTSTRAP_ID}
       - KEEPER_HOST=keeper
     volumes:
-      - ./othentic_peerstore:/app/peerstore/othentic
+      - ~/.triggerx/peerstore/othentic:/app/peerstore/othentic
+      - ~/.triggerx/logs/othentic:/app/data/logs/othentic
     ports:
       - "${OPERATOR_P2P_PORT}:${OPERATOR_P2P_PORT}"
       - "${OPERATOR_METRICS_PORT}:${OPERATOR_METRICS_PORT}"
-    # depends_on:
-    #   keeper:
-    #     condition: service_started
+    depends_on:
+      keeper:
+        condition: service_started
+    restart: unless-stopped
     networks:
       - p2p
 
@@ -130,7 +138,6 @@ networks:
 
 volumes:
   prometheus_data:
+    driver: local
   grafana_data:
-  othentic_peerstore:
-    name: othentic_peerstore_temp
-    external: false
+    driver: local
