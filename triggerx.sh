@@ -53,11 +53,10 @@ setup_persistent_storage() {
   mkdir -p ~/.triggerx/cache
   mkdir -p ~/.triggerx/logs/keeper
   mkdir -p ~/.triggerx/logs/othentic
-  mkdir -p ~/.triggerx/peerstore/attester
   mkdir -p ~/.triggerx/peerstore/othentic
   
-  # Set permissions for user directories
-  chmod -R 755 ~/.triggerx
+  # Set permissions to be writable by container user (UID 1000)
+  chmod -R 777 ~/.triggerx
   
   echo "Persistent storage setup complete in user home (~/.triggerx/)"
 }
