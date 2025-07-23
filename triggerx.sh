@@ -48,16 +48,26 @@ get_docker_group_id() {
 # Setup persistent storage directories with proper permissions
 setup_persistent_storage() {
   echo "Setting up persistent storage directories..."
-  
-  # Create directories in user home for persistent storage
-  mkdir -p ~/.triggerx/cache
-  mkdir -p ~/.triggerx/logs/keeper
-  mkdir -p ~/.triggerx/logs/othentic
-  mkdir -p ~/.triggerx/peerstore/othentic
-  
-  # Set permissions to be writable by container user (UID 1000)
-  chmod -R 777 ~/.triggerx
-  
+
+  # Define directories for persistent storage
+  dirs=(
+    "$HOME/.triggerx/cache"
+    "$HOME/.triggerx/logs/keeper"
+    "$HOME/.triggerx/logs/othentic"
+    "$HOME/.triggerx/peerstore/othentic"
+  )
+
+  # Check if each directory exists before creating
+  for dir in "${dirs[@]}"; do
+    if [ ! -d "$dir" ]; then
+      mkdir -p "$dir"
+      echo "Created directory: $dir"
+
+      # Set permissions to be writable by container user (UID 1000)
+      chmod -R 777 "$dir"
+    fi
+  done
+
   echo "Persistent storage setup complete in user home (~/.triggerx/)"
 }
 
