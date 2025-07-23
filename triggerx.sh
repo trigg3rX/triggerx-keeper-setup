@@ -132,8 +132,6 @@ EOF
         echo "Stopping TriggerX services..."
         $DOCKER_COMPOSE_CMD --profile core down
         $DOCKER_COMPOSE_CMD --profile monitoring down
-        # Clean up any old volumes if they exist
-        docker volume rm othentic_peerstore_temp || true
         ;;
 
     stop-mon)
