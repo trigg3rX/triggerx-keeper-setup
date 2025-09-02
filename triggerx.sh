@@ -129,14 +129,16 @@ EOF
         ;;
 
     stop)
-        echo "Stopping TriggerX services..."
-        $DOCKER_COMPOSE_CMD --profile core down
-        $DOCKER_COMPOSE_CMD --profile monitoring down
+        echo "Stopping TriggerX services gracefully..."
+        $DOCKER_COMPOSE_CMD --profile core stop stop -t 40
+        sleep 5
+        $DOCKER_COMPOSE_CMD --profile core down --remove-orphans
+        $DOCKER_COMPOSE_CMD --profile monitoring down --remove-orphans
         ;;
 
     stop-mon)
         echo "Stopping TriggerX monitoring services..."
-        $DOCKER_COMPOSE_CMD --profile monitoring down
+        $DOCKER_COMPOSE_CMD --profile monitoring down --remove-orphans
         ;;
 
     logs)

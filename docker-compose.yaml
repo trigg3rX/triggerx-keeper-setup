@@ -30,7 +30,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ~/.triggerx/cache:/home/triggerx/data/cache
       - ~/.triggerx/logs:/home/triggerx/data/logs
-      - ~/.triggerx/peerstore:/home/triggerx/data/peerstore
     ports:
       - "${OPERATOR_RPC_PORT}:${OPERATOR_RPC_PORT}"
     restart: unless-stopped
