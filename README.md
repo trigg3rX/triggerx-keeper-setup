@@ -23,15 +23,11 @@ nano .env
 ```
 4. Install Othentic-cli
 ```bash
-npm i -g @othentic/othentic-cli@1.10.0
+npm i -g @othentic/otcli
 ```
-5. Initialize Othentic-cli
+5. Register your Keeper
 ```bash
-othentic-cli init
-```
-6. Register your Keeper
-```bash
-othentic-cli operator register
+otcli operator register
 ```
 7. Start Keeper
 ```bash
@@ -73,4 +69,3 @@ View the dashboard at `http://<host>:3000`, where `<host>` is the IP address of 
 #### Navigate to TriggerX Keeper Dashboard
 
 On the left sidebar, navigate to Dashboards > TriggerX Keeper Dashboard.
-
