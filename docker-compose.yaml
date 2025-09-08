@@ -8,8 +8,8 @@ x-othentic-cli: &othentic-cli
 services:
   keeper:
     profiles: ["core"]
-    image: trigg3rx/triggerx-keeper:0.1.6
-    container_name: triggerx-keeper
+    image: trigg3rx/triggerx-attester:1.0.0
+    container_name: triggerx-attester
     env_file:
       - .env
     command: [
@@ -21,7 +21,6 @@ services:
       - OPERATOR_ADDRESS=${OPERATOR_ADDRESS}
       - OPERATOR_RPC_PORT=${OPERATOR_RPC_PORT}
       - PUBLIC_IPV4_ADDRESS=${PUBLIC_IPV4_ADDRESS}
-      - PEER_ID=${PEER_ID}
       - L1_RPC=${L1_RPC}
       - OTHENTIC_CLIENT_RPC_ADDRESS=${OTHENTIC_CLIENT_RPC_ADDRESS}
       - HEALTH_IP_ADDRESS=${HEALTH_IP_ADDRESS}
@@ -47,18 +46,18 @@ services:
     command: [
       "node",
       "attester",
-      "/ip4/157.173.218.229/tcp/9876/p2p/${OTHENTIC_BOOTSTRAP_ID}",
+      "/ip4/31.97.206.151/tcp/9876/p2p/${OTHENTIC_BOOTSTRAP_ID}",
       "--avs-webapi", "http://keeper",
       "--avs-webapi-port", "${OPERATOR_RPC_PORT}",
-      "--l1-chain", "holesky",
-      "--l2-chain", "base-sepolia",
+      "--l1-chain", "mainnet",
+      "--l2-chain", "base",
       "--json-rpc.custom-message-enabled",
       "--p2p.port", "${OPERATOR_P2P_PORT}",
       "--p2p.datadir", "peerstore/othentic",
       "--p2p.discovery-interval", "60000",
       "--metrics",
       "--metrics.port", "${OPERATOR_METRICS_PORT}",
-      "--announced-addresses", "/ip4/${PUBLIC_IPV4_ADDRESS}/tcp/${OPERATOR_P2P_PORT}/p2p/${PEER_ID}"
+      "--p2p.public-ip", "${PUBLIC_IPV4_ADDRESS}"
     ]
     environment:
       - L1_RPC=${L1_RPC}
@@ -68,7 +67,6 @@ services:
       - OPERATOR_P2P_PORT=${OPERATOR_P2P_PORT}
       - OPERATOR_METRICS_PORT=${OPERATOR_METRICS_PORT}
       - PUBLIC_IPV4_ADDRESS=${PUBLIC_IPV4_ADDRESS}
-      - PEER_ID=${PEER_ID}
       - LOG_DIR=data/logs/othentic
       - OTHENTIC_BOOTSTRAP_ID=${OTHENTIC_BOOTSTRAP_ID}
       - KEEPER_HOST=keeper
