@@ -8,7 +8,7 @@ x-othentic-cli: &othentic-cli
 services:
   keeper:
     profiles: ["core"]
-    image: trigg3rx/triggerx-attester:1.0.0
+    image: trigg3rx/triggerx-keeper:0.2.2
     container_name: triggerx-attester
     env_file:
       - .env
@@ -46,11 +46,11 @@ services:
     command: [
       "node",
       "attester",
-      "/ip4/31.97.206.151/tcp/9876/p2p/${OTHENTIC_BOOTSTRAP_ID}",
+      "/ip4/157.173.218.229/tcp/9876/p2p/${OTHENTIC_BOOTSTRAP_ID}",
       "--avs-webapi", "http://keeper",
       "--avs-webapi-port", "${OPERATOR_RPC_PORT}",
-      "--l1-chain", "mainnet",
-      "--l2-chain", "base",
+      "--l1-chain", "sepolia",
+      "--l2-chain", "base-sepolia",
       "--json-rpc.custom-message-enabled",
       "--p2p.port", "${OPERATOR_P2P_PORT}",
       "--p2p.datadir", "peerstore/othentic",
