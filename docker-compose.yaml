@@ -1,4 +1,4 @@
-x-othentic-cli: &othentic-cli
+x-otnode: &otnode
   env_file:
     - .env
   build:
@@ -28,7 +28,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ~/.triggerx/cache:/home/triggerx/data/cache
-      - ~/.triggerx/logs:/home/triggerx/data/logs
+      - ~/.triggerx/logs/performer:/home/triggerx/data/logs
     ports:
       - "${OPERATOR_RPC_PORT}:${OPERATOR_RPC_PORT}"
     restart: unless-stopped
@@ -40,11 +40,11 @@ services:
   othentic:
     profiles: ["core"]
     container_name: triggerx-othentic
-    <<: *othentic-cli
+    <<: *otnode
     env_file:
       - .env
     command: [
-      "node",
+      "run",
       "attester",
       "/ip4/31.97.206.151/tcp/9876/p2p/${OTHENTIC_BOOTSTRAP_ID}",
       "--avs-webapi", "http://keeper",
@@ -73,8 +73,8 @@ services:
       - OTHENTIC_BOOTSTRAP_ID=${OTHENTIC_BOOTSTRAP_ID}
       - KEEPER_HOST=keeper
     volumes:
-      - ~/.triggerx/peerstore/othentic:/app/peerstore/othentic
-      - ~/.triggerx/logs/othentic:/app/data/logs/othentic
+      - ~/.triggerx/peerstore/performer:/app/peerstore/othentic
+      - ~/.triggerx/logs/performer:/app/data/logs/othentic
     ports:
       - "${OPERATOR_P2P_PORT}:${OPERATOR_P2P_PORT}"
       - "${OPERATOR_METRICS_PORT}:${OPERATOR_METRICS_PORT}"
