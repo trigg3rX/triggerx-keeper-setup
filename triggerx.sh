@@ -45,30 +45,68 @@ get_docker_group_id() {
   fi
 }
 
+# Load environment variables from .env (if present)
+load_env_file() {
+  if [ -f ".env" ]; then
+    # shellcheck disable=SC2046,SC1090
+    set -a
+    source ".env"
+    set +a
+  else
+    echo "Warning: .env file not found in the current directory."
+  fi
+}
+
+# Ensure storage-related environment variables are exported
+ensure_storage_variables() {
+  load_env_file
+
+  if [ -n "${TRIGGERX_CACHE_DIR:-}" ]; then
+    return
+  fi
+
+  local address="${OPERATOR_ADDRESS:-default}"
+  if [ "$address" = "default" ]; then
+    echo "Warning: OPERATOR_ADDRESS not set. Using shared storage directory."
+  fi
+
+  local sanitized_address
+  sanitized_address=$(echo "$address" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9_-]/-/g')
+  if [ -z "$sanitized_address" ]; then
+    sanitized_address="default"
+  fi
+
+  export TRIGGERX_STORAGE_ROOT="$HOME/.triggerx/$sanitized_address"
+  export TRIGGERX_CACHE_DIR="$TRIGGERX_STORAGE_ROOT/cache"
+  export TRIGGERX_KEEPER_LOG_DIR="$TRIGGERX_STORAGE_ROOT/logs/keeper"
+  export TRIGGERX_OTHENTIC_LOG_DIR="$TRIGGERX_STORAGE_ROOT/logs/othentic"
+  export TRIGGERX_PEERSTORE_DIR="$TRIGGERX_STORAGE_ROOT/peerstore/othentic"
+
+  echo "Using keeper storage root: $TRIGGERX_STORAGE_ROOT"
+}
+
 # Setup persistent storage directories with proper permissions
 setup_persistent_storage() {
+  ensure_storage_variables
+
   echo "Setting up persistent storage directories..."
 
-  # Define directories for persistent storage
   dirs=(
-    "$HOME/.triggerx/cache"
-    "$HOME/.triggerx/logs/keeper"
-    "$HOME/.triggerx/logs/othentic"
-    "$HOME/.triggerx/peerstore/othentic"
+    "$TRIGGERX_CACHE_DIR"
+    "$TRIGGERX_KEEPER_LOG_DIR"
+    "$TRIGGERX_OTHENTIC_LOG_DIR"
+    "$TRIGGERX_PEERSTORE_DIR"
   )
 
-  # Check if each directory exists before creating
   for dir in "${dirs[@]}"; do
     if [ ! -d "$dir" ]; then
       mkdir -p "$dir"
       echo "Created directory: $dir"
-
-      # Set permissions to be writable by container user (UID 1000)
       chmod -R 777 "$dir"
     fi
   done
 
-  echo "Persistent storage setup complete in user home (~/.triggerx/)"
+  echo "Persistent storage setup complete."
 }
 
 # Display help information
@@ -92,10 +130,8 @@ show_help() {
 # Handle command line arguments
 case "$1" in
     start)
-        # echo "Setting up persistent storage..."
+        ensure_storage_variables
         setup_persistent_storage
-        
-        # echo "Detecting Docker group ID..."
         get_docker_group_id
         
         echo "Starting TriggerX core services..."
@@ -103,13 +139,10 @@ case "$1" in
         ;;
 
     start-mon)
-        # echo "Setting up persistent storage..."
+        ensure_storage_variables
         setup_persistent_storage
-        
-        # echo "Detecting Docker group ID..."
         get_docker_group_id
-        
-        source .env
+
 cat > prometheus.yaml << EOF
 global:
   scrape_interval: 15s
@@ -129,6 +162,7 @@ EOF
         ;;
 
     stop)
+        ensure_storage_variables
         echo "Stopping TriggerX services gracefully..."
         $DOCKER_COMPOSE_CMD --profile core stop stop -t 40
         sleep 5
@@ -137,23 +171,28 @@ EOF
         ;;
 
     stop-mon)
+        ensure_storage_variables
         echo "Stopping TriggerX monitoring services..."
         $DOCKER_COMPOSE_CMD --profile monitoring down --remove-orphans
         ;;
 
     logs)
+        ensure_storage_variables
         $DOCKER_COMPOSE_CMD --profile core logs -f
         ;;
 
     logs-keeper)
+        ensure_storage_variables
         $DOCKER_COMPOSE_CMD logs -f keeper
         ;;
 
     logs-othentic)
+        ensure_storage_variables
         $DOCKER_COMPOSE_CMD logs -f othentic
         ;;
 
     status)
+        ensure_storage_variables
         echo "TriggerX Service Status:"
         $DOCKER_COMPOSE_CMD ps
         ;;

@@ -27,8 +27,8 @@ services:
       - KEEPER_HOST=keeper
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ~/.triggerx/cache:/home/triggerx/data/cache
-      - ~/.triggerx/logs:/home/triggerx/data/logs
+      - ${TRIGGERX_CACHE_DIR}:/home/triggerx/data/cache
+      - ${TRIGGERX_KEEPER_LOG_DIR}:/home/triggerx/data/logs/keeper
     ports:
       - "${OPERATOR_RPC_PORT}:${OPERATOR_RPC_PORT}"
     restart: unless-stopped
@@ -73,8 +73,8 @@ services:
       - OTHENTIC_BOOTSTRAP_ID=${OTHENTIC_BOOTSTRAP_ID}
       - KEEPER_HOST=keeper
     volumes:
-      - ~/.triggerx/peerstore/othentic:/app/peerstore/othentic
-      - ~/.triggerx/logs/othentic:/app/data/logs/othentic
+      - ${TRIGGERX_PEERSTORE_DIR}:/app/peerstore/othentic
+      - ${TRIGGERX_OTHENTIC_LOG_DIR}:/app/data/logs/othentic
     ports:
       - "${OPERATOR_P2P_PORT}:${OPERATOR_P2P_PORT}"
       - "${OPERATOR_METRICS_PORT}:${OPERATOR_METRICS_PORT}"
