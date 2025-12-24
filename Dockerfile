@@ -4,6 +4,6 @@ RUN npm install -g npm@10.5.0
 
 WORKDIR /app
 
-RUN npm i -g @othentic/node@1.1.1-beta.1
+RUN npm i -g @othentic/node@1.1.2
 
 ENTRYPOINT [ "otnode" ]

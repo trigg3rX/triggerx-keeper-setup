@@ -8,7 +8,7 @@ x-otnode: &otnode
 services:
   keeper:
     profiles: ["core"]
-    image: trigg3rx/triggerx-attester:1.0.1
+    image: trigg3rx/triggerx-attester:1.1.0
     container_name: triggerx-attester
     env_file:
       - .env
@@ -22,8 +22,9 @@ services:
       - OPERATOR_RPC_PORT=${OPERATOR_RPC_PORT}
       - PUBLIC_IPV4_ADDRESS=${PUBLIC_IPV4_ADDRESS}
       - L1_RPC=${L1_RPC}
-      - OTHENTIC_CLIENT_RPC_ADDRESS=${OTHENTIC_CLIENT_RPC_ADDRESS}
-      - HEALTH_IP_ADDRESS=${HEALTH_IP_ADDRESS}
+      - OTHENTIC_CLIENT_RPC_ADDRESS=https://aggregator.triggerx.network
+      - HEALTH_IP_ADDRESS=https://health.triggerx.network
+      - OTEL_EXPORTER_ENDPOINT=collector.triggerx.network:9051
       - KEEPER_HOST=keeper
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock

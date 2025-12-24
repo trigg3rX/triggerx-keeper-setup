@@ -53,6 +53,7 @@ setup_persistent_storage() {
   dirs=(
     "$HOME/.triggerx/cache"
     "$HOME/.triggerx/logs/keeper"
+    "$HOME/.triggerx/logs/performer"
     "$HOME/.triggerx/logs/othentic"
     "$HOME/.triggerx/peerstore/othentic"
   )
@@ -69,6 +70,31 @@ setup_persistent_storage() {
   done
 
   echo "Persistent storage setup complete in user home (~/.triggerx/)"
+}
+
+# Pull Docker images required for executor
+pull_executor_images() {
+  echo "Pulling Docker images for executor..."
+  
+  # Docker images from docker-executor.yaml
+  images=(
+    "golang:1.24-alpine"
+    "node:22-alpine"
+  )
+  
+  for image in "${images[@]}"; do
+    # Check if image already exists locally
+    if docker image inspect "$image" &>/dev/null; then
+      echo "Image $image already exists locally, skipping pull."
+    else
+      echo "Pulling $image..."
+      docker pull "$image" || {
+        echo "Warning: Failed to pull $image. It will be pulled when needed."
+      }
+    fi
+  done
+  
+  echo "Docker images check/pull complete"
 }
 
 # Display help information
@@ -98,6 +124,9 @@ case "$1" in
         # echo "Detecting Docker group ID..."
         get_docker_group_id
         
+        # Pull executor Docker images
+        pull_executor_images
+        
         echo "Starting TriggerX core services..."
         $DOCKER_COMPOSE_CMD --profile core up -d
         ;;
@@ -108,6 +137,9 @@ case "$1" in
         
         # echo "Detecting Docker group ID..."
         get_docker_group_id
+        
+        # Pull executor Docker images
+        pull_executor_images
         
         source .env
 cat > prometheus.yaml << EOF
@@ -169,4 +201,4 @@ EOF
         ;;
 esac
 
-exit 0 
+exit 0
