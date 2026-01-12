@@ -8,7 +8,7 @@ x-otnode: &otnode
 services:
   keeper:
     profiles: ["core"]
-    image: trigg3rx/triggerx-attester:1.1.0
+    image: trigg3rx/triggerx-attester:1.1.1
     container_name: triggerx-attester
     env_file:
       - .env
@@ -54,8 +54,7 @@ services:
       "--l2-chain", "base",
       "--json-rpc.custom-message-enabled",
       "--p2p.port", "${OPERATOR_P2P_PORT}",
-      "--p2p.datadir", "peerstore/othentic",
-      "--p2p.discovery-interval", "60000",
+      "--p2p.discovery-interval", "180000",
       "--metrics",
       "--metrics.port", "${OPERATOR_METRICS_PORT}",
       "--p2p.public-ip", "${PUBLIC_IPV4_ADDRESS}"
@@ -74,7 +73,6 @@ services:
       - OTHENTIC_BOOTSTRAP_ID=${OTHENTIC_BOOTSTRAP_ID}
       - KEEPER_HOST=keeper
     volumes:
-      - ~/.triggerx/peerstore/performer:/app/peerstore/othentic
       - ~/.triggerx/logs/othentic:/app/data/logs/othentic
     ports:
       - "${OPERATOR_P2P_PORT}:${OPERATOR_P2P_PORT}"

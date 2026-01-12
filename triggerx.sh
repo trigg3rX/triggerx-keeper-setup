@@ -55,7 +55,6 @@ setup_persistent_storage() {
     "$HOME/.triggerx/logs/keeper"
     "$HOME/.triggerx/logs/performer"
     "$HOME/.triggerx/logs/othentic"
-    "$HOME/.triggerx/peerstore/othentic"
   )
 
   # Check if each directory exists before creating
@@ -70,6 +69,19 @@ setup_persistent_storage() {
   done
 
   echo "Persistent storage setup complete in user home (~/.triggerx/)"
+}
+
+# Clear peerstore directory before starting
+clear_peerstore() {
+  echo "Clearing peerstore directory..."
+  peerstore_dir="$HOME/.triggerx/peerstore/othentic"
+  
+  if [ -d "$peerstore_dir" ]; then
+    rm -rf "$peerstore_dir"/*
+    echo "Cleared peerstore directory: $peerstore_dir"
+  else
+    echo "Peerstore directory does not exist, skipping clear: $peerstore_dir"
+  fi
 }
 
 # Pull Docker images required for executor
@@ -118,6 +130,9 @@ show_help() {
 # Handle command line arguments
 case "$1" in
     start)
+        # Clear peerstore directory before starting
+        clear_peerstore
+        
         # echo "Setting up persistent storage..."
         setup_persistent_storage
         
