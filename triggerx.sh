@@ -109,6 +109,40 @@ pull_executor_images() {
   echo "Docker images check/pull complete"
 }
 
+# Clean Docker images (othentic and previous triggerx-attester versions)
+clean_images() {
+  echo "Cleaning Docker images..."
+  
+  # Hardcoded previous versions of triggerx-attester to remove
+  TRIGGERX_ATTESTER_VERSIONS=(
+    "trigg3rx/triggerx-attester:1.1.0"
+    "trigg3rx/triggerx-attester:1.0.1"
+    "trigg3rx/triggerx-attester:1.0.0"
+  )
+  
+  # Remove othentic images (built from docker-compose)
+  echo "Removing othentic images..."
+  docker images --format "{{.Repository}}:{{.Tag}}" | grep -i "othentic" | while read image; do
+    if [ -n "$image" ]; then
+      echo "Removing image: $image"
+      docker rmi -f "$image" 2>/dev/null || echo "  Could not remove $image (may be in use or already removed)"
+    fi
+  done
+  
+  # Remove previous versions of triggerx-attester
+  echo "Removing previous triggerx-attester versions..."
+  for version in "${TRIGGERX_ATTESTER_VERSIONS[@]}"; do
+    if docker image inspect "$version" &>/dev/null; then
+      echo "Removing image: $version"
+      docker rmi -f "$version" || echo "  Could not remove $version (may be in use)"
+    else
+      echo "Image $version not found, skipping"
+    fi
+  done
+  
+  echo "Docker images cleanup complete"
+}
+
 # Display help information
 show_help() {
     echo "TriggerX Management Script"
@@ -123,6 +157,7 @@ show_help() {
     echo "  logs-keeper   View logs from the keeper service only"
     echo "  logs-othentic View logs from the othentic service only"
     echo "  status        Show the status of all services"
+    echo "  clean         Remove othentic images and previous triggerx-attester versions"
     echo "  help          Show this help message"
     echo ""
 }
@@ -203,6 +238,10 @@ EOF
     status)
         echo "TriggerX Service Status:"
         $DOCKER_COMPOSE_CMD ps
+        ;;
+
+    clean)
+        clean_images
         ;;
 
     help|--help|-h)
