@@ -143,6 +143,39 @@ clean_images() {
   echo "Docker images cleanup complete"
 }
 
+# Clean up orphan executor containers (triggerx-executor-*)
+clean_executor_containers() {
+  echo "Checking for orphan executor containers..."
+  
+  # Find all containers matching triggerx-executor-* pattern
+  containers=$(docker ps -a --filter "name=triggerx-executor-" --format "{{.Names}}" 2>/dev/null)
+  
+  if [ -z "$containers" ]; then
+    echo "No orphan executor containers found"
+    return 0
+  fi
+  
+  echo "Found orphan executor containers:"
+  echo "$containers" | while read -r container; do
+    if [ -n "$container" ]; then
+      echo "  - $container"
+    fi
+  done
+  
+  # Stop and remove each container
+  echo "$containers" | while read -r container; do
+    if [ -n "$container" ]; then
+      echo "Stopping container: $container"
+      docker stop "$container" 2>/dev/null || echo "  Container $container already stopped or does not exist"
+      
+      echo "Removing container: $container"
+      docker rm -f "$container" 2>/dev/null || echo "  Could not remove $container (may already be removed)"
+    fi
+  done
+  
+  echo "Orphan executor containers cleanup complete"
+}
+
 # Display help information
 show_help() {
     echo "TriggerX Management Script"
@@ -212,10 +245,15 @@ EOF
 
     stop)
         echo "Stopping TriggerX services gracefully..."
-        $DOCKER_COMPOSE_CMD --profile core stop stop -t 40
+        # Stop services with timeout (stop doesn't support --profile, so we stop all)
+        $DOCKER_COMPOSE_CMD stop -t 40
         sleep 5
+        # Remove containers with profile filtering
         $DOCKER_COMPOSE_CMD --profile core down --remove-orphans
         $DOCKER_COMPOSE_CMD --profile monitoring down --remove-orphans
+        
+        # Clean up any orphan executor containers
+        clean_executor_containers
         ;;
 
     stop-mon)

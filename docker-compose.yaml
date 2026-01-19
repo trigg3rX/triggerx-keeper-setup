@@ -47,7 +47,7 @@ services:
     command: [
       "run",
       "attester",
-      "/ip4/31.97.206.151/tcp/9876/p2p/${OTHENTIC_BOOTSTRAP_ID}",
+      "/ip4/23.22.168.253/tcp/9876/p2p/${OTHENTIC_BOOTSTRAP_ID}",
       "--avs-webapi", "http://keeper",
       "--avs-webapi-port", "${OPERATOR_RPC_PORT}",
       "--l1-chain", "mainnet",
