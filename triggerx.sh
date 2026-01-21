@@ -156,23 +156,20 @@ clean_executor_containers() {
   fi
   
   echo "Found orphan executor containers:"
-  echo "$containers" | while read -r container; do
+  for container in $containers; do
     if [ -n "$container" ]; then
       echo "  - $container"
     fi
   done
   
   # Stop and remove each container
-  echo "$containers" | while read -r container; do
-    if [ -n "$container" ]; then
-      echo "Stopping container: $container"
+  for container in $containers; do
+    (
       docker stop "$container" 2>/dev/null || echo "  Container $container already stopped or does not exist"
-      
-      echo "Removing container: $container"
       docker rm -f "$container" 2>/dev/null || echo "  Could not remove $container (may already be removed)"
-    fi
+    ) &
   done
-  
+  wait
   echo "Orphan executor containers cleanup complete"
 }
 
